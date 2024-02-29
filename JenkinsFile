@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    tools{
+        maven 'local_maven'
+    }
     
     stages{
         stage ('Build'){
@@ -14,6 +17,9 @@ pipeline{
             }
         }
         stage ('Deploy to tomcat server'){
+            steps{
+                deploy adapters: [tomcat9(credentialsId: 'Zia', path: '', url: 'https://tomcat.apache.org/download-90.cgi')], contextPath: null, war: '**/*.war'
+            }
         }
     } 
 }
